@@ -14,7 +14,7 @@ class PortfolioSeeder extends Seeder
     public function run(): void
     {
         Profile::updateOrCreate(['id' => 1], [
-            'full_name'    => 'Race Jhone Minard Escaret',
+            'full_name'    => 'Race Jhone Minard P. Escaret',
             'role_title'   => 'Computer Science Graduate — IT & Systems Development',
             'location'     => 'Brgy. Osorio, Trece Martires City, Cavite',
             'phone'        => '0977 0077 284',

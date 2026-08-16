@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PortfolioController;
 use Illuminate\Support\Facades\Route;
@@ -19,11 +20,12 @@ Route::get('/', [PortfolioController::class, 'index'])->name('portfolio');
 
 /*
 |--------------------------------------------------------------------------
-| Auth (no package required — plain session auth)
+| Auth (Google OAuth only — restricted to one allowed email)
 |--------------------------------------------------------------------------
 */
 Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/admin/login', [LoginController::class, 'login'])->name('login.attempt');
+Route::get('/admin/login/google', [GoogleLoginController::class, 'redirect'])->name('login.google');
+Route::get('/admin/login/google/callback', [GoogleLoginController::class, 'callback'])->name('login.google.callback');
 Route::post('/admin/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
 /*
