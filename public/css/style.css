@@ -71,29 +71,35 @@ body {
 }
 
 .intro-tag {
-  font-size: 11px;
-  letter-spacing: 0.35em;
+  font-size: 13px;
+  letter-spacing: 0.38em;
   text-transform: uppercase;
   color: var(--accent-green);
 }
 
 .intro-title {
-  font-size: clamp(20px, 4vw, 28px);
+  font-size: clamp(28px, 6vw, 46px);
   letter-spacing: 0.06em;
   color: var(--ink);
   white-space: nowrap;
   overflow: hidden;
-  border-right: 2px solid var(--accent-green);
-  width: 0;
-  animation: intro-type 0.9s steps(15, end) 0.5s forwards;
+  border-right: 3px solid var(--accent-green);
+  /* Sized to the actual text ("CASE FILE" = 9 characters, plus a
+     hair of padding for the letter-spacing and cursor). A box wider
+     than the text left empty space inside it, which broke both the
+     typing reveal (it looked "done" partway through) and the
+     centering (the text sat left of center inside the extra room). */
+  width: 9.6ch;
+  clip-path: inset(0 100% 0 0);
+  animation: intro-type 0.9s steps(9, end) 0.5s forwards;
 }
 
 .intro-bar {
-  width: clamp(140px, 24vw, 220px);
-  height: 2px;
+  width: clamp(180px, 30vw, 280px);
+  height: 3px;
   background: var(--rule);
   overflow: hidden;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .intro-bar-fill {
@@ -114,7 +120,7 @@ body {
 }
 
 @keyframes intro-type {
-  to { width: 15ch; }
+  to { clip-path: inset(0 0 0 0); }
 }
 
 @keyframes intro-progress {
@@ -127,6 +133,24 @@ body {
   pointer-events: none;
 }
 
+/* Particles spawned from "CASE FILE" at the moment it starts to
+   dissolve — small marks that fly outward and fade, echoing the
+   ambient bg-icon field so the text reads as breaking apart into it. */
+.intro-particle {
+  position: fixed;
+  z-index: 1000;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  pointer-events: none;
+  opacity: 0;
+  animation: intro-particle-burst var(--pdur, 0.8s) ease-out var(--pdelay, 0s) forwards;
+}
+
+@keyframes intro-particle-burst {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  18%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--pdx, 0px), var(--pdy, 0px)) scale(1); }
+}
 /* Case folder reveal, timed to the intro's auto-hide so it works with or without JS */
 .case {
   opacity: 0;
@@ -213,6 +237,35 @@ body {
   mix-blend-mode: screen;
   pointer-events: none;
   z-index: 5;
+}
+
+/* Admin login — lives inline in the case footer, styled exactly like
+   the other footer labels (no color/underline highlight), so it just
+   reads as one more piece of file metadata. */
+.case-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.admin-link {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.admin-link:hover,
+.admin-link:focus-visible {
+  color: var(--ink);
+}
+
+.admin-link:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 /* ============================================
@@ -568,6 +621,51 @@ body {
   .footer-mid { display: inline; }
 }
 
+/* Bigger desktop scale — the folder gets more room and larger type
+   on wide screens instead of sitting small in a sea of empty space. */
+@media (min-width: 1024px) {
+  .case { width: min(1220px, 92vw); height: min(840px, 88vh); }
+
+  .tab { font-size: 15px; padding: 15px 24px 17px; }
+
+  .subject-name { font-size: 40px; }
+  .subject-role { font-size: 17px; margin-bottom: 24px; }
+  .panel-heading { font-size: 36px; margin-bottom: 26px; }
+
+  .meta-item { padding: 10px 16px; min-width: 170px; }
+  .meta-v, .contact-v { font-size: 16px; }
+  .meta-k, .contact-k { font-size: 12px; }
+
+  .block p, .project-card p:last-child { font-size: 17px; line-height: 1.75; }
+  .block-title { font-size: 13px; }
+  .log li { font-size: 15.5px; }
+  .log-title { font-size: 17px; }
+  .log-org { font-size: 14px; }
+
+  .record-title { font-size: 17px; }
+  .record-sub { font-size: 15px; }
+  .record-date, .log-date { font-size: 12px; }
+
+  .chip { font-size: 13px; padding: 7px 14px; }
+
+  .project-title { font-size: 22px; }
+  .project-sub { font-size: 15px; }
+  .project-card { padding: 24px; }
+
+  .contact-intro { font-size: 17px; }
+  .contact-row { padding: 16px 18px; }
+
+  .case-header { font-size: 12px; }
+}
+
+@media (min-width: 1440px) {
+  .case { width: min(1400px, 90vw); height: min(900px, 86vh); }
+
+  .subject-name { font-size: 44px; }
+  .panel-heading { font-size: 38px; }
+  .block p, .project-card p:last-child { font-size: 17.5px; }
+}
+
 @media (max-width: 640px) {
   html, body { overflow-y: auto; } /* on small screens, allow page scroll as a fallback */
   .desk { height: auto; min-height: 100vh; padding: 14px; }
@@ -588,7 +686,7 @@ body {
 }
 
 @media (max-width: 420px), (max-height: 560px) {
-  .bg-icon:nth-child(n+15) { display: none; } /* keep the field sparse on tiny screens */
+  .bg-icon:nth-child(n+26) { display: none; } /* keep the field manageable on tiny screens */
 }
 
 /* Respect reduced motion: skip the intro sequence and all ambient motion */
@@ -597,7 +695,7 @@ body {
   .bg-icon { animation: none; }
   .folder-body::before { transition: none; }
   .intro-mark, .intro-title, .intro-bar-fill { animation: none; opacity: 1; width: auto; }
-  .intro-title { width: 15ch; border-right: none; }
+  .intro-title { width: 9.6ch; clip-path: inset(0 0 0 0); border-right: none; }
   .intro-overlay { transition: none; }
   .case { animation: none; opacity: 1; transform: none; }
 }

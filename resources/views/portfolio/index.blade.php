@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ @filemtime(public_path('css/style.css')) }}">
 </head>
 <body>
 
@@ -244,13 +244,17 @@
         <footer class="case-footer">
           <span>FIELD: SOFTWARE / SYSTEMS / SECURITY</span>
           <span class="footer-mid">USE ARROW KEYS OR CLICK TABS TO NAVIGATE</span>
-          <span>CLEARANCE: PUBLIC</span>
+          <span class="case-footer-right">
+            <span>CLEARANCE: PUBLIC</span>
+            <a href="{{ route('login') }}" class="admin-link">Admin Login</a>
+          </span>
         </footer>
 
       </div>
     </div>
+
   </div>
 
-<script src="{{ asset('js/script.js') }}"></script>
+<script src="{{ asset('js/script.js') }}?v={{ @filemtime(public_path('js/script.js')) }}"></script>
 </body>
 </html>

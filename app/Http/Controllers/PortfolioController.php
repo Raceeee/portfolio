@@ -12,7 +12,7 @@ class PortfolioController extends Controller
 {
     public function index()
     {
-        $profile = Profile::first();
+        $profile = Profile::first() ?? new Profile();
         $educations = Education::orderBy('sort_order')->orderBy('id')->get();
         $skills = Skill::orderBy('sort_order')->orderBy('id')->get()->groupBy('category');
         $experiences = Experience::orderBy('sort_order')->orderBy('id')->get();

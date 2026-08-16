@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'rjm.escaret@gmail.com'],
             [
-                'name' => 'Race Jhone Escaret',
+                'name' => 'Race Jhone Minard Escaret',
                 'password' => Hash::make('change-this-password'),
                 'email_verified_at' => now(),
             ]

@@ -42,4 +42,33 @@
     <button type="submit" class="btn">Save changes</button>
   </form>
 </div>
+
+<h1>Change Password</h1>
+<div class="card">
+  @if ($errors->has('current_password') || $errors->has('password'))
+    <ul>
+      @foreach ($errors->only(['current_password', 'password']) as $fieldErrors)
+        @foreach ((array) $fieldErrors as $error)
+          <li style="color:#c00">{{ $error }}</li>
+        @endforeach
+      @endforeach
+    </ul>
+  @endif
+
+  <form method="POST" action="{{ route('admin.profile.password.update') }}">
+    @csrf
+    @method('PUT')
+
+    <label>Current password</label>
+    <input type="password" name="current_password" required>
+
+    <label>New password</label>
+    <input type="password" name="password" required minlength="8">
+
+    <label>Confirm new password</label>
+    <input type="password" name="password_confirmation" required minlength="8">
+
+    <button type="submit" class="btn">Update password</button>
+  </form>
+</div>
 @endsection

@@ -14,7 +14,7 @@ class PortfolioSeeder extends Seeder
     public function run(): void
     {
         Profile::updateOrCreate(['id' => 1], [
-            'full_name'    => 'Escaret, Race Jhone Minard P.',
+            'full_name'    => 'Race Jhone Minard Escaret',
             'role_title'   => 'Computer Science Graduate — IT & Systems Development',
             'location'     => 'Brgy. Osorio, Trece Martires City, Cavite',
             'phone'        => '0977 0077 284',
@@ -22,8 +22,8 @@ class PortfolioSeeder extends Seeder
             'objective'    => 'Aspiring IT professional and Computer Science graduate with experience in systems development, troubleshooting, and software-related projects. Passionate about technology, cybersecurity, and application development, with a strong willingness to learn and contribute in a professional environment.',
             'case_number'  => '2026-CS-ESC',
             'status'       => 'ACTIVE',
-            'github_url'   => null,
-            'linkedin_url' => null,
+            'github_url'   => 'https://github.com/Raceeee',
+            'linkedin_url' => 'https://www.linkedin.com/in/race-jhone-minard-escaret-0999aa171/',
         ]);
 
         $educations = [
