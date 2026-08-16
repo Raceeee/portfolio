@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Installing PHP dependencies..."
-composer install --no-dev --working-dir=/var/www/html --optimize-autoloader
+echo "Clearing any stale cached config..."
+php artisan config:clear || true
 
 echo "Caching config..."
 php artisan config:cache
