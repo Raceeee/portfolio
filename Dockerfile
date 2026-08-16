@@ -1,4 +1,17 @@
-# ---- Stage 1: build frontend assets with Node/Vite ----
+# ---- Stage 1: install PHP dependencies with Composer ----
+FROM composer:2 AS vendor
+
+WORKDIR /app
+
+COPY composer.json composer.lock ./
+RUN composer install \
+    --no-dev \
+    --no-scripts \
+    --no-interaction \
+    --optimize-autoloader \
+    --ignore-platform-reqs
+
+# ---- Stage 2: build frontend assets with Node/Vite ----
 FROM node:20-alpine AS assets
 
 WORKDIR /app
@@ -12,28 +25,38 @@ COPY public ./public
 
 RUN npm run build
 
-# ---- Stage 2: PHP application (nginx + php-fpm bundled image) ----
-FROM richarvey/nginx-php-fpm:3.1.6
+# ---- Stage 3: final application image (php-fpm + nginx + supervisor) ----
+FROM php:8.3-fpm-alpine
 
-# Copy the whole Laravel app in
-COPY . /var/www/html
+RUN apk add --no-cache \
+        nginx \
+        supervisor \
+        bash \
+        postgresql-dev \
+        sqlite-dev \
+        icu-dev \
+        oniguruma-dev \
+        libzip-dev \
+    && docker-php-ext-install pdo pdo_pgsql pdo_sqlite mbstring bcmath opcache intl zip
 
-# Overwrite public/build with the compiled assets from stage 1
-COPY --from=assets /app/public/build /var/www/html/public/build
+WORKDIR /var/www/html
 
-# Deploy script (runs automatically on container start, see base image docs)
-COPY docker/00-laravel-deploy.sh /var/www/html/scripts/00-laravel-deploy.sh
-RUN chmod +x /var/www/html/scripts/00-laravel-deploy.sh
+COPY . .
+COPY --from=vendor /app/vendor ./vendor
+COPY --from=assets /app/public/build ./public/build
 
-# Base image configuration
-ENV WEBROOT=/var/www/html/public
-ENV PHP_ERRORS_STDERR=1
-ENV RUN_SCRIPTS=1
-ENV REAL_IP_HEADER=1
+COPY docker/nginx.conf /etc/nginx/http.d/default.conf
+COPY docker/supervisord.conf /etc/supervisord.conf
+COPY docker/start.sh /start.sh
+RUN chmod +x /start.sh
+
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
-ENV SKIP_COMPOSER=1
-ENV COMPOSER_ALLOW_SUPERUSER=1
+
+EXPOSE 10000
 
 CMD ["/start.sh"]

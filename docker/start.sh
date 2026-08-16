@@ -19,4 +19,5 @@ php artisan storage:link || true
 echo "Running database migrations..."
 php artisan migrate --force
 
-echo "Deploy script finished."
+echo "Starting services..."
+exec supervisord -c /etc/supervisord.conf
