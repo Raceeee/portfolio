@@ -19,5 +19,8 @@ php artisan storage:link || true
 echo "Running database migrations..."
 php artisan migrate --force
 
+echo "Seeding profile/admin data..."
+php artisan db:seed --force
+
 echo "Starting services..."
 exec supervisord -c /etc/supervisord.conf
