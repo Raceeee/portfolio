@@ -19,7 +19,7 @@ class PortfolioSeeder extends Seeder
             'location'     => 'Brgy. Osorio, Trece Martires City, Cavite',
             'phone'        => '0977 0077 284',
             'email'        => 'rjm.escaret@gmail.com',
-            'objective'    => 'Aspiring IT professional and Computer Science graduate with experience in systems development, troubleshooting, and software-related projects. Passionate about technology, cybersecurity, and application development, with a strong willingness to learn and contribute in a professional environment.',
+            'objective'    => "I'm a dreamer who turned curiosity into a passion for technology.\n\nI enjoy building things, solving problems, and learning how systems work — from software and applications to hardware and IT infrastructure.\n\nI may still be growing as a professional, but I believe every challenge is another opportunity to learn.",
             'case_number'  => '2026-CS-ESC',
             'status'       => 'ACTIVE',
             'github_url'   => 'https://github.com/Raceeee',

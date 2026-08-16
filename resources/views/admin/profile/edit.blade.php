@@ -15,8 +15,8 @@
     <label>Role / title</label>
     <input type="text" name="role_title" value="{{ old('role_title', $profile->role_title) }}">
 
-    <label>Objective</label>
-    <textarea name="objective">{{ old('objective', $profile->objective) }}</textarea>
+    <label>About me (separate paragraphs with a blank line — the last paragraph is highlighted on the site)</label>
+    <textarea name="objective" rows="8">{{ old('objective', $profile->objective) }}</textarea>
 
     <label>Location</label>
     <input type="text" name="location" value="{{ old('location', $profile->location) }}">
